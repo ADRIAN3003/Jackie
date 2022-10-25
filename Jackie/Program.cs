@@ -44,40 +44,67 @@ namespace Jackie
         {
             Console.WriteLine("5. feladat:");
 
-            Dictionary<int, int> stat = new Dictionary<int, int>();
+            //Dictionary<int, int> stat = new Dictionary<int, int>();
 
-            for (int i = 0; i < evekStat.Count; i++)
-            {
-                if (stat.ContainsKey(evekStat[i].HanyasEvek))
-                {
-                    stat[evekStat[i].HanyasEvek] += evekStat[i].Wins;
-                }
-                else
-                {
-                    stat.Add(evekStat[i].HanyasEvek, evekStat[i].Wins);
-                }
-            }
+            //for (int i = 0; i < evekStat.Count; i++)
+            //{
+            //    if (stat.ContainsKey(evekStat[i].HanyasEvek))
+            //    {
+            //        stat[evekStat[i].HanyasEvek] += evekStat[i].Wins;
+            //    }
+            //    else
+            //    {
+            //        stat.Add(evekStat[i].HanyasEvek, evekStat[i].Wins);
+            //    }
+            //}
 
-            foreach (var item in stat)
+            //foreach (var item in stat)
+            //{
+            //    Console.WriteLine($"\t{item.Key}-es évek: {item.Value} megnyert verseny");
+            //}
+
+            //var hatvanas = from verseny in evekStat
+            //               where verseny.HanyasEvek is 60
+            //               group verseny.HanyasEvek by verseny.Wins;
+
+            //Console.WriteLine($"\t60-as évek: {hatvanas.Sum(x => x.Key)} megnyert verseny");
+
+            //var hetvenes = from verseny in evekStat
+            //               where verseny.HanyasEvek is 70
+            //               group verseny.HanyasEvek by verseny.Wins;
+
+            //Console.WriteLine($"\t70-es évek: {hetvenes.Sum(x => x.Key)} megnyert verseny");
+
+
+            var egybe = (from verseny in evekStat
+                        group verseny by verseny.HanyasEvek).ToList();
+
+            foreach (var item in egybe)
             {
-                Console.WriteLine($"\t{item.Key}-es évek: {item.Value} megnyert verseny");
+                Console.WriteLine($"\t{item.Key}-es évek: {item.Sum(x => x.Wins)} megnyert verseny");
             }
         }
 
         private static void NegyedikFeladat()
         {
-            int races = evekStat[0].Races;
-            int o = 0;
-            for (int i = 0; i < evekStat.Count; i++)
-            {
-                if (evekStat[i].Races > races)
-                {
-                    races = evekStat[i].Races;
-                    o = i;
-                }
-            }
+            //int races = evekStat[0].Races;
+            //int o = 0;
+            //for (int i = 0; i < evekStat.Count; i++)
+            //{
+            //    if (evekStat[i].Races > races)
+            //    {
+            //        races = evekStat[i].Races;
+            //        o = i;
+            //    }
+            //}
 
-            Console.WriteLine("4. feladat: " + evekStat[o].Year);
+            //Console.WriteLine("4. feladat: " + evekStat[o].Year);
+
+            var ev = (from evek in evekStat
+                     orderby evek.Races descending
+                     select evek.Year).ToList();
+
+            Console.WriteLine("4. feladat: " + ev[0]);
         }
 
         private static void HarmadikFeladat()
